@@ -1,0 +1,11 @@
+{
+  "name": "claude-settings-manager",
+  "version": "0.1.0",
+  "description": "Local web dashboard to view, diff, and consolidate Claude Code settings across global/project/local scopes",
+  "bin": {
+    "claude-settings": "./claude-settings.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Claude Settings Manager</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <h1>Claude Settings Manager</h1>
+    <div id="context" class="muted small"></div>
+  </div>
+  <nav>
+    <button data-tab="files" class="tab active">Files</button>
+    <button data-tab="permissions" class="tab">Permissions</button>
+    <button data-tab="mcp" class="tab">MCP Servers</button>
+  </nav>
+</header>
+
+<main>
+  <section id="tab-files" class="tab-panel active">
+    <div class="toolbar">
+      <button id="refresh-files">Refresh</button>
+      <span id="files-summary" class="muted small"></span>
+    </div>
+    <table id="files-table">
+      <thead>
+        <tr>
+          <th>Scope</th><th>Kind</th><th>Path</th><th>Allow</th><th>Deny</th><th>Ask</th><th>Size</th><th>Modified</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div id="file-viewer" class="hidden">
+      <div class="toolbar">
+        <strong id="viewer-path"></strong>
+        <span id="viewer-mode" class="badge">read-only</span>
+        <button id="edit-file">Edit</button>
+        <button id="save-file" class="primary hidden">Save</button>
+        <button id="cancel-edit" class="hidden">Cancel</button>
+        <button id="close-viewer">Close</button>
+        <span id="viewer-status" class="muted small"></span>
+      </div>
+      <div id="viewer-warning" class="warning hidden">
+        Edit mode loads the file unredacted. Secrets (tokens, keys) are now visible in this browser tab.
+      </div>
+      <textarea id="viewer-editor" spellcheck="false" readonly></textarea>
+    </div>
+  </section>
+
+  <section id="tab-permissions" class="tab-panel">
+    <div class="toolbar">
+      <button id="refresh-perms">Refresh</button>
+      <label><input type="checkbox" id="only-duplicates"> Only duplicates across files</label>
+      <input id="perms-filter" placeholder="Filter rules…" />
+      <span id="perms-summary" class="muted small"></span>
+    </div>
+    <div class="legend">
+      <span class="pill pill-user">user (global)</span>
+      <span class="pill pill-project">project (shared)</span>
+      <span class="pill pill-local">local</span>
+      <span class="muted small">Click a rule to expand actions.</span>
+    </div>
+    <table id="perms-table">
+      <thead>
+        <tr><th>Rule</th><th>Bucket</th><th>Defined in</th><th></th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="tab-mcp" class="tab-panel">
+    <div class="toolbar">
+      <button id="refresh-mcp">Refresh</button>
+      <span id="mcp-summary" class="muted small"></span>
+    </div>
+    <table id="mcp-table">
+      <thead>
+        <tr><th>Name</th><th>Source scope</th><th>Path</th><th>Config / Status</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+
+<div id="toast" class="toast hidden"></div>
+
+<dialog id="promote-dialog">
+  <form method="dialog">
+    <h3>Move / consolidate rule</h3>
+    <p class="muted small" id="promote-rule"></p>
+    <label>Bucket <select id="promote-bucket"><option>allow</option><option>deny</option><option>ask</option></select></label>
+    <label>Target file <select id="promote-target"></select></label>
+    <fieldset>
+      <legend>Also remove from</legend>
+      <div id="promote-sources"></div>
+    </fieldset>
+    <menu>
+      <button value="cancel">Cancel</button>
+      <button id="promote-confirm" value="confirm" type="submit">Apply</button>
+    </menu>
+  </form>
+</dialog>
+
+<script src="/app.js"></script>
+</body>
+</html>
